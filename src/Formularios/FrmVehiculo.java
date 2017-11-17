@@ -69,8 +69,6 @@ public class FrmVehiculo extends javax.swing.JFrame {
     //cuando el formulario esta en modo vendedor
     private void Siguiente(){
         //actualizo las tablas
-        Oferta.Llenalista();
-        Auto.LlenarLista();
         indexOferta++;
         if (indexOferta >= Oferta.LOfertas.size()) {
             indexOferta=0;
@@ -87,9 +85,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
     }
     
     //cuando el formulario esta en modo vendedor
-    private void Anterior(){
-        Oferta.Llenalista();
-        Auto.LlenarLista();
+    private void Anterior(){       
         indexOferta--;
         if (indexOferta < 0) {
             indexOferta = Oferta.LOfertas.size()-1;
@@ -126,15 +122,14 @@ public class FrmVehiculo extends javax.swing.JFrame {
             txtPrecio.setText(String.valueOf(_auto.getPrecio()));
             if (!_auto.getImagen().isEmpty()) {
                 BufferedImage img = null;
-            try 
-            {
-                img = ImageIO.read(new File("./src/imagenes/"+_auto.getImagen()));                
-                lblImagen.setIcon(new ImageIcon(img));                
-            } 
-            catch (IOException e) 
-            {
-                e.printStackTrace();
-            }
+                try 
+                {
+                    img = ImageIO.read(new File("./src/imagenes/"+_auto.getImagen()));                
+                    lblImagen.setIcon(new ImageIcon(img));                
+                } 
+                catch (IOException e){
+                    e.printStackTrace();
+                }
             }
             
             return;
@@ -515,6 +510,10 @@ public class FrmVehiculo extends javax.swing.JFrame {
             for (int i = 0; i < Auto.LAutos.size(); i++) {
                 if (Auto.LAutos.get(i).getPlaca().equalsIgnoreCase(v.getPlaca())) {
                     Auto.LAutos.set(i, v);
+                    JOptionPane.showMessageDialog(this,
+                    "Se encontró un auto con la misma placa se procedera a actualizar su información",
+                    "Ingresar",
+                    JOptionPane.INFORMATION_MESSAGE);
                     System.out.println("Actualización de Vehiculo exitosa");
                     return; //finalizo en caso de que se haya hecho una actualizacion
                 }
@@ -684,8 +683,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     //cuando el formulario esta en modo comprador
-    private void Siguiente_Compra() {        
-        Auto.LlenarLista();
+    private void Siguiente_Compra() {
         indexOferta++;
         if (indexOferta > Auto.LAutos.size()) {
             indexOferta=0;
@@ -694,8 +692,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
     }
     
     //cuando el formulario esta en modo comprador
-    private void Anterior_Compra(){        
-        Auto.LlenarLista();
+    private void Anterior_Compra(){   
         indexOferta--;
         if (indexOferta < 0) {
             indexOferta = Auto.LAutos.size()-1;

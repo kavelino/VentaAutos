@@ -5,7 +5,7 @@
  */
 package Formularios;
 
-import Entidades.Usuario;
+import Entidades.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -55,6 +55,11 @@ public class FrmLogin extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar Sesión");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         btnLoguin.setText("Login");
         btnLoguin.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +156,8 @@ public class FrmLogin extends javax.swing.JFrame {
         Usuario u = new Usuario(txtusuario.getText(), String.valueOf(jpPassword.getPassword()));   
         if(usuarioAutorizado(u))
         {
+            Oferta.Llenalista();
+            Auto.LlenarLista();
             u.setClave(null);
             if (u.getRol().equalsIgnoreCase("comprador")) {
                 FrmComprador frm = new FrmComprador();
@@ -178,6 +185,12 @@ public class FrmLogin extends javax.swing.JFrame {
         FrmUsuarios frm = new FrmUsuarios();
         frm.setVisible(true);
     }//GEN-LAST:event_btnNuevoUserActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        Oferta.GuardarDatos();
+        Auto.GuardarDatos();
+        System.out.println("Terminando");
+    }//GEN-LAST:event_formWindowClosing
 
     private Connection con;
     

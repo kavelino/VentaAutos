@@ -5,6 +5,7 @@
  */
 package Entidades;
 
+import static Entidades.Oferta.LOfertas;
 import Formularios.FrmVendedor;
 import TDAs.SimpleLinkedList;
 import java.sql.Connection;
@@ -63,6 +64,64 @@ public class Auto {
                         Double.parseDouble(rs.getString("precio")), rs.getString("imagen"));
                 LAutos.addFirst(v);
             }
+        }catch (Exception ex) {
+            Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+            /*JOptionPane.showMessageDialog(this,
+                    "Ocurrió un error al intentar consultar información en la base de datos. "+ ex,
+                    "Vendedor",
+                    JOptionPane.ERROR_MESSAGE);*/
+        }finally{
+            if ( con!=null) {
+                try {
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (st!=null) {
+                try{
+                    st.close();
+                }catch (SQLException ex) {
+                   Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (rs!= null) {
+                try{
+                    rs.close();
+                }catch (SQLException ex) {
+                    Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    
+    public static void GuardarDatos(){
+        ResultSet rs = null;                       
+        PreparedStatement st = null;
+        Connection con = null;
+        try {
+            con = Conexion.Conexion.conectar();
+            st= con.prepareStatement("delete * from autos");
+            st.executeUpdate();
+            System.out.println("Eliminando datos pasados");
+            for (int i = 0; i < LAutos.size(); i++) {
+                st = con.prepareStatement("INSERT INTO autos(idautos,placa,marca,modelo,tipoMotor,ano,tipo,recorrido,color,tipoCombustible,vidrio,transmision,precio,imagen) VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
+                st.setString(1, LAutos.get(i).getPlaca());
+                    st.setString(2, LAutos.get(i).getMarca());
+                    st.setString(3, LAutos.get(i).getModelo());
+                    st.setString(4, String.valueOf(LAutos.get(i).getTipoMotor()));
+                    st.setString(5, String.valueOf(LAutos.get(i).getAnio()));
+                    st.setString(6,LAutos.get(i).getTipo());
+                    st.setString(7, String.valueOf(LAutos.get(i).getRecorrido()));
+                    st.setString(8, LAutos.get(i).getColor());
+                    st.setString(9, LAutos.get(i).getTipoCombustible());
+                    st.setString(10, LAutos.get(i).getVidrios());
+                    st.setString(11, LAutos.get(i).getTransmision());
+                    st.setString(12, String.valueOf(LAutos.get(i).getPrecio()));
+                    st.setString(13, LAutos.get(i).getImagen());
+                st.executeUpdate();
+                System.out.println("oferta para el auto "+LOfertas.get(i).getPlaca()+". Ingresada con éxito" );
+            }         
         }catch (Exception ex) {
             Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
             /*JOptionPane.showMessageDialog(this,

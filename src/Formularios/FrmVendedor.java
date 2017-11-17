@@ -116,7 +116,6 @@ public class FrmVendedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnNuevoVehiculoActionPerformed
     
     private void btnVerOfertasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerOfertasActionPerformed
-        Oferta.Llenalista(); 
         if (Oferta.LOfertas.size() > 0) {
             FrmVehiculo frm = new FrmVehiculo(false,true); //(esnuevo,esvendedor)
             frm.setVisible(true);
