@@ -7,6 +7,7 @@ package Entidades;
 
 import static Entidades.Oferta.LOfertas;
 import Formularios.FrmVendedor;
+import TDAs.DoubleLinkedList;
 import TDAs.SimpleLinkedList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,7 +45,7 @@ public class Auto {
         this.imagen = imagen;
     }
     
-    public static TDAs.SimpleLinkedList<Auto> LAutos = new SimpleLinkedList<>(); //lista de autos que se encuentran en la base de datos
+    public static TDAs.DoubleLinkedList<Auto> LAutos = new DoubleLinkedList<>(); //lista de autos que se encuentran en la base de datos
     
     public static void LlenarLista(){
         

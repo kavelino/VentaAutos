@@ -6,6 +6,7 @@
 package Clases;
 
 import Entidades.Oferta;
+import TDAs.DoubleLinkedList;
 
 /**
  *
@@ -14,7 +15,7 @@ import Entidades.Oferta;
  * @author Kleber Avelino Mosquera
  */
 public class Notificaciones extends Thread{
-    TDAs.SimpleLinkedList<Oferta> listTemp = Oferta.LOfertas;
+    DoubleLinkedList<Oferta> listTemp = Oferta.LOfertas;
      @Override
     public void run() {
         while(true){            

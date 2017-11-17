@@ -6,6 +6,7 @@
 package Entidades;
 
 import Formularios.FrmVendedor;
+import TDAs.DoubleLinkedList;
 import TDAs.SimpleLinkedList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,7 +26,7 @@ public class Oferta {
     String correo;
     Double precioOfertado;
     
-    public static TDAs.SimpleLinkedList<Oferta> LOfertas = new SimpleLinkedList<>();
+    public static TDAs.DoubleLinkedList<Oferta> LOfertas = new DoubleLinkedList<>();
     
     public static void Llenalista(){
         ResultSet rs = null;                       

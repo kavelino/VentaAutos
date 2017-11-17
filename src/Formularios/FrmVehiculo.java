@@ -47,9 +47,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
             lstListaOfertas.setVisible(false);
         }else{
             btnIngresar.setVisible(false);
-            btnCancelar.setVisible(false);
-            Auto.LlenarLista();
-            Oferta.Llenalista();
+            btnCancelar.setVisible(false);            
             isVendedor = _vendedor;
             if (_vendedor) {
                 btnLoQuiero.setVisible(false);
@@ -558,14 +556,16 @@ public class FrmVehiculo extends javax.swing.JFrame {
                 
                 Entidades.Auto.LAutos.remove(i);
                 System.out.println("Auto Vendido con éxito");
+                for (int j = 0; j < Oferta.LOfertas.size(); j++) {
+                    if (Oferta.LOfertas.get(j).getPlaca().equalsIgnoreCase(plc)) {
+                        Oferta.LOfertas.remove(j);
+                        System.out.println("Auto Eliminado de las ofertas con éxito");
+                    }   
+                }
+                break; //solo hay un carro con las misma placas.
             }
         }
-        for (int j = 0; j < Oferta.LOfertas.size(); j++) {
-            if (Oferta.LOfertas.get(j).getPlaca().equalsIgnoreCase(plc)) {
-                Oferta.LOfertas.remove(j);
-                System.out.println("Auto Eliminado de las ofertas con éxito");
-            }
-        }
+        dispose();
     }//GEN-LAST:event_btnOfertaActionPerformed
 
     private void btnLoQuieroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoQuieroActionPerformed
