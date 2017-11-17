@@ -105,10 +105,6 @@ public class FrmVehiculo extends javax.swing.JFrame {
         }        
     }
     
-    public static void Notificaciones(){
-        
-    }
-    
     private void LlenarCampos(Auto _auto){
         try { //por el acceso a la base de datos
             Thread.sleep(1000);

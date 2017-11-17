@@ -6,11 +6,6 @@
 package Formularios;
 
 import Entidades.Oferta;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -122,40 +117,12 @@ public class FrmLoQuiero extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnOfertarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOfertarActionPerformed
-        if (ValidarControles()) {
-            PreparedStatement st = null;
-            Connection con = null;
+        if (ValidarControles()) {           
             Oferta o = new Oferta(placa, txtCorreo.getText(), Double.parseDouble(txtValorOferta.getText()));
-            try {
-                con = Conexion.Conexion.conectar();            
-                st = con.prepareStatement("insert into ofertas (idofertas,placa,correo,precio) values (null,?,?,?) ");
-                st.setString(1, o.getPlaca());
-                st.setString(2, o.getCorreo());
-                st.setString(3, String.valueOf(o.getPrecioOfertado()));
-                
-                st.executeUpdate(); 
+            Oferta.LOfertas.addFirst(o);
+            System.out.println("oferta Creada Con éxito");
 
-                System.out.println("oferta Creada Con éxito");
-                
-                dispose();
-            }catch (Exception ex) {
-                Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);                        
-            }finally{
-                if ( con!=null) {
-                    try {
-                        con.close();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                if (st!=null) {
-                    try{
-                        st.close();
-                    }catch (SQLException ex) {
-                       Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
+            dispose();
         }
     }//GEN-LAST:event_btnOfertarActionPerformed
 
