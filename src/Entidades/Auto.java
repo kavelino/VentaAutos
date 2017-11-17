@@ -54,8 +54,8 @@ public class Auto {
         Connection con = null;
         try {
             con = Conexion.Conexion.conectar();            
-            st = con.prepareStatement("SELECT * FROM autos");
-            rs = st.executeQuery(); 
+            //st = con.prepareStatement("SELECT * FROM autos");
+            //rs = st.executeQuery(); 
             while(rs.next()){
                 Auto v = new Auto(rs.getString("placa"), rs.getString("marca"),rs.getString("modelo") , 
                         Double.parseDouble(rs.getString("tipoMotor")), Integer.parseInt(rs.getString("ano")), 
@@ -121,7 +121,7 @@ public class Auto {
                         st.setString(12, String.valueOf(LAutos.get(i).getPrecio()));
                         st.setString(13, LAutos.get(i).getImagen());
                     st.executeUpdate();
-                    System.out.println("oferta para el auto "+LOfertas.get(i).getPlaca()+". Ingresada con éxito" );
+                    System.out.println("oferta para el auto "+LAutos.get(i).getPlaca()+". Ingresada con éxito" );
                 }         
             }catch (Exception ex) {
                 Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);

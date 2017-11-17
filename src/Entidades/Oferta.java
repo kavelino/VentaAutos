@@ -35,8 +35,8 @@ public class Oferta {
         
         try {
             con = Conexion.Conexion.conectar();
-            st = con.prepareStatement("SELECT * FROM ofertas");
-            rs = st.executeQuery();             
+            //st = con.prepareStatement("SELECT * FROM ofertas");
+            //rs = st.executeQuery();             
             while (rs.next()) {
                 Oferta o= new Oferta(rs.getString("placa"), rs.getString("correo"), Double.parseDouble(rs.getString("precio")));                
                 Oferta.LOfertas.addFirst(o);                
