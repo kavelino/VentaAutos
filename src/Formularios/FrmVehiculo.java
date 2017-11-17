@@ -11,16 +11,11 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -506,102 +501,31 @@ public class FrmVehiculo extends javax.swing.JFrame {
     private void txtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPrecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtPrecioActionPerformed
-
-    private Connection con;
     
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        ResultSet rs = null;                       
-        PreparedStatement st = null;            
-        
-        try {
-            con = Conexion.Conexion.conectar();
-            if (ValidarNumero(txtAnio.getText(), false)&& 
-                    ValidarNumero(txtRecorrido.getText(), false) &&
-                    ValidarNumero(txtTipoMotor.getText(), true) &&
-                    ValidarNumero(txtPrecio.getText(), true)) { //se validan que el usuario ingrese solo numeros, por un ingreso que este mal no se procede a la operacion
-                
-                //se crea una entidad tipo auto
-                Auto v = new Auto(txtPlaca.getText(),txtMarca.getText(),txtModelo.getText(),
-                        Double.parseDouble(txtTipoMotor.getText()), Integer.parseInt(txtAnio.getText()),
-                        txtTipoVehiculo.getText(), Integer.parseInt(txtRecorrido.getText()), txtColor.getText(), 
-                        txtTipoCombustible.getText(), txtVidrio.getText(), txtTransmision.getText(), 
-                        Double.parseDouble(txtPrecio.getText()),file.getName());
-                            
-                st = con.prepareStatement("SELECT * FROM autos WHERE placa = ?");            
-                st.setString(1,v.getPlaca());    
-                rs = st.executeQuery();
-                if (rs.next()) { //si existe un vehiculo con la misma placa se actualiza la información
-                    //st = null;
-                    st = con.prepareStatement("UPDATE autos set modelo=?, tipoMotor = ?, ano=?, tipo=?, recorrido =?, color =?, tipoCombustible=?, vidrio=?, transmision=?, precio=?, marca =?  WHERE placa = ?");  
-                    st.setString(1, v.getModelo());
-                    st.setString(2, String.valueOf(v.getTipoMotor()));
-                    st.setString(3, String.valueOf(v.getAnio()));
-                    st.setString(4, v.getTipo());
-                    st.setString(5, String.valueOf(v.getRecorrido()));
-                    st.setString(6, v.getColor());
-                    st.setString(7, v.getTipoCombustible());
-                    st.setString(8, v.getVidrios());
-                    st.setString(9, v.getTransmision());
-                    st.setString(10, String.valueOf(v.getPrecio()));
-                    st.setString(11, v.getMarca());
-                    st.setString(12, v.getPlaca());
-                    
-                    st.executeUpdate();
-                    
-                    //nueva consulta con la misma conexion
-                    st = con.prepareCall("delete * from ofertas where placa = ?");
-                    st.setString(1, v.getPlaca());
-                    st.executeUpdate();                    
-                    
-                    System.out.println("Actualización de Vehiculo exitosa");                     
-                }else{
-                    st = con.prepareStatement("INSERT INTO autos(idautos,placa,marca,modelo,tipoMotor,ano,tipo,recorrido,color,tipoCombustible,vidrio,transmision,precio,imagen) VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
-                    st.setString(1, v.getPlaca());
-                    st.setString(2, v.getMarca());
-                    st.setString(3, v.getModelo());
-                    st.setString(4, String.valueOf(v.getTipoMotor()));
-                    st.setString(5, String.valueOf(v.getAnio()));
-                    st.setString(6,v.getTipo());
-                    st.setString(7, String.valueOf(v.getRecorrido()));
-                    st.setString(8, v.getColor());
-                    st.setString(9, v.getTipoCombustible());
-                    st.setString(10, v.getVidrios());
-                    st.setString(11, v.getTransmision());
-                    st.setString(12, String.valueOf(v.getPrecio()));
-                    st.setString(13, v.getImagen());
-                    
-                    st.executeUpdate();
-                    
-                    //Auto.LAutos.addFirst(v);
+        if (ValidarNumero(txtAnio.getText(), false)&& 
+                ValidarNumero(txtRecorrido.getText(), false) &&
+                ValidarNumero(txtTipoMotor.getText(), true) &&
+                ValidarNumero(txtPrecio.getText(), true)) { //se validan que el usuario ingrese solo numeros, por un ingreso que este mal no se procede a la operacion
 
-                    System.out.println("Ingreso de Vehiculo exitoso"); 
-                } 
-                limpiarCajas();
-            }
-        } catch (Exception e) {
-        }
-        finally{
-            if ( con!=null) {
-                    try {
-                        con.close();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(FrmVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-            }
-            if (st!=null) {
-                try{
-                    st.close();
-                }catch (SQLException ex) {
-                   Logger.getLogger(FrmVehiculo.class.getName()).log(Level.SEVERE, null, ex);
+            //se crea una entidad tipo auto
+            Auto v = new Auto(txtPlaca.getText(),txtMarca.getText(),txtModelo.getText(),
+                    Double.parseDouble(txtTipoMotor.getText()), Integer.parseInt(txtAnio.getText()),
+                    txtTipoVehiculo.getText(), Integer.parseInt(txtRecorrido.getText()), txtColor.getText(), 
+                    txtTipoCombustible.getText(), txtVidrio.getText(), txtTransmision.getText(), 
+                    Double.parseDouble(txtPrecio.getText()),file.getName());
+            
+            //verifico que no haya ya un vehiculo con la misma placa en el sistema
+            for (int i = 0; i < Auto.LAutos.size(); i++) {
+                if (Auto.LAutos.get(i).getPlaca().equalsIgnoreCase(v.getPlaca())) {
+                    Auto.LAutos.set(i, v);
+                    System.out.println("Actualización de Vehiculo exitosa");
+                    return; //finalizo en caso de que se haya hecho una actualizacion
                 }
             }
-            if (rs!= null) {
-                try{
-                    rs.close();
-                }catch (SQLException ex) {
-                    Logger.getLogger(FrmVehiculo.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+
+            Auto.LAutos.addFirst(v);
+            System.out.println("Ingreso de Vehiculo exitoso");
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -633,40 +557,15 @@ public class FrmVehiculo extends javax.swing.JFrame {
                 "Se se esta procediendo a concretar la compra",
                 "Ver Oferta",
                 JOptionPane.INFORMATION_MESSAGE);
-
-                PreparedStatement st = null;
-                Connection con = null;
-                try {
-                    con = Conexion.Conexion.conectar();            
-                    st = con.prepareStatement("delete * FROM autos where placa = ? ");
-                    st.setString(1, plc);
-                    st.executeUpdate(); 
-
-                    System.out.println("Auto Eliminado con éxito");
-
-                    st = con.prepareStatement("delete * FROM ofertas where placa = ? ");
-                    st.setString(1, plc);
-                    st.executeUpdate(); 
-
-                    System.out.println("Auto Eliminado de las ofertas");
-                }catch (Exception ex) {
-                    Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);                        
-                }finally{
-                    if ( con!=null) {
-                        try {
-                            con.close();
-                        } catch (SQLException ex) {
-                            Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                    if (st!=null) {
-                        try{
-                            st.close();
-                        }catch (SQLException ex) {
-                           Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
+                
+                Entidades.Auto.LAutos.remove(i);
+                System.out.println("Auto Vendido con éxito");
+            }
+        }
+        for (int j = 0; j < Oferta.LOfertas.size(); j++) {
+            if (Oferta.LOfertas.get(j).getPlaca().equalsIgnoreCase(plc)) {
+                Oferta.LOfertas.remove(j);
+                System.out.println("Auto Eliminado de las ofertas con éxito");
             }
         }
     }//GEN-LAST:event_btnOfertaActionPerformed
