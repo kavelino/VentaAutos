@@ -33,6 +33,15 @@ public class Auto {
     private String vidrios;
     private String transmision;
     private Double precio;
+    private String imagen;
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
     
     public static TDAs.SimpleLinkedList<Auto> LAutos; //lista de autos que se encuentran en la base de datos
     
@@ -51,7 +60,7 @@ public class Auto {
                         Double.parseDouble(rs.getString("tipoMotor")), Integer.parseInt(rs.getString("ano")), 
                         rs.getString("tipo"), Integer.parseInt(rs.getString("recorrido")), rs.getString("color"), 
                         rs.getString("tipoCombustible"), rs.getString("vidrio"), rs.getString("transmision"), 
-                        Double.parseDouble(rs.getString("precio")));
+                        Double.parseDouble(rs.getString("precio")), rs.getString("imagen"));
                 LAutos.addFirst(v);
             }
         }catch (Exception ex) {
@@ -85,7 +94,7 @@ public class Auto {
         }
     }
 
-    public Auto(String placa, String marca, String modelo, double tipoMotor, int anio, String tipo, int recorrido, String color, String tipoCombustible, String vidrios, String transmision, Double precio) {
+    public Auto(String placa, String marca, String modelo, double tipoMotor, int anio, String tipo, int recorrido, String color, String tipoCombustible, String vidrios, String transmision, Double precio, String imagen) {
         this.placa = placa;
         this.marca = marca;
         this.modelo = modelo;
@@ -98,6 +107,7 @@ public class Auto {
         this.vidrios = vidrios;
         this.transmision = transmision;
         this.precio = precio;
+        this.imagen = imagen;
     }
 
     public String getPlaca() {

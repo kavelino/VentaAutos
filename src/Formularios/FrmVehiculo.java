@@ -8,6 +8,7 @@ package Formularios;
 import Entidades.Auto;
 import Entidades.Oferta;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -16,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -31,8 +33,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class FrmVehiculo extends javax.swing.JFrame {
 
     private boolean isVendedor; //para saber que funcion es la que debe usar
-    ImageIcon imagen = new ImageIcon("ChevroletSpark.jpg");
-    JLabel etiqueta = new JLabel(imagen);
+    private File file; //ruta de imagen 
     
     /**
      * Creates new form FrmVehiculo
@@ -132,6 +133,19 @@ public class FrmVehiculo extends javax.swing.JFrame {
             txtVidrio.setText(_auto.getVidrios());
             txtTransmision.setText(_auto.getTransmision());
             txtPrecio.setText(String.valueOf(_auto.getPrecio()));
+            if (!_auto.getImagen().isEmpty()) {
+                BufferedImage img = null;
+            try 
+            {
+                img = ImageIO.read(new File("./src/imagenes/"+_auto.getImagen()));                
+                lblImagen.setIcon(new ImageIcon(img));                
+            } 
+            catch (IOException e) 
+            {
+                e.printStackTrace();
+            }
+            }
+            
             return;
         }     
         limpiarCajas();
@@ -151,6 +165,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
         txtTransmision.setText("");
         txtPrecio.setText(""); 
         lblOferta.setText("");
+        lblImagen.setIcon(null);
     }
 
     /**
@@ -510,7 +525,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
                         Double.parseDouble(txtTipoMotor.getText()), Integer.parseInt(txtAnio.getText()),
                         txtTipoVehiculo.getText(), Integer.parseInt(txtRecorrido.getText()), txtColor.getText(), 
                         txtTipoCombustible.getText(), txtVidrio.getText(), txtTransmision.getText(), 
-                        Double.parseDouble(txtPrecio.getText()));
+                        Double.parseDouble(txtPrecio.getText()),file.getName());
                             
                 st = con.prepareStatement("SELECT * FROM autos WHERE placa = ?");            
                 st.setString(1,v.getPlaca());    
@@ -540,7 +555,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
                     
                     System.out.println("Actualización de Vehiculo exitosa");                     
                 }else{
-                    st = con.prepareStatement("INSERT INTO autos(idautos,placa,marca,modelo,tipoMotor,ano,tipo,recorrido,color,tipoCombustible,vidrio,transmision,precio,imagen) VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,null) ");
+                    st = con.prepareStatement("INSERT INTO autos(idautos,placa,marca,modelo,tipoMotor,ano,tipo,recorrido,color,tipoCombustible,vidrio,transmision,precio,imagen) VALUES(null,?,?,?,?,?,?,?,?,?,?,?,?,?) ");
                     st.setString(1, v.getPlaca());
                     st.setString(2, v.getMarca());
                     st.setString(3, v.getModelo());
@@ -553,7 +568,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
                     st.setString(10, v.getVidrios());
                     st.setString(11, v.getTransmision());
                     st.setString(12, String.valueOf(v.getPrecio()));
-                    
+                    st.setString(13, v.getImagen());
                     
                     st.executeUpdate();
                     
@@ -666,7 +681,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
         JFileChooser archivo = new JFileChooser();
         archivo.addChoosableFileFilter(filtro);
         archivo.setDialogTitle("Abrir Imagen de Auto");
-        File ruta = new File(".");
+        File ruta = new File("./src/imagenes");
         try {
             archivo.setCurrentDirectory(ruta.getCanonicalFile());
         } catch (IOException ex) {
@@ -674,13 +689,11 @@ public class FrmVehiculo extends javax.swing.JFrame {
         }
         int ventana = archivo.showOpenDialog(null);
         if (ventana == JFileChooser.APPROVE_OPTION) {
-            File file = archivo.getSelectedFile();
+            file = archivo.getSelectedFile();
             Image foto = getToolkit().getImage(String.valueOf(file));
             foto = foto.getScaledInstance(100, 100, Image.SCALE_DEFAULT);
-            lblImagen.setIcon(new ImageIcon(foto));
-        }
-        
-        
+            lblImagen.setIcon(new ImageIcon(foto));            
+        }       
     }//GEN-LAST:event_btnCargarFotoActionPerformed
 
     //permite saber si los valores son los apropiados para los no String
