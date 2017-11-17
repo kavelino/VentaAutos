@@ -33,6 +33,7 @@ public class FrmVehiculo extends javax.swing.JFrame {
     /**
      * Creates new form FrmVehiculo
      * @param _nuevo = saber si el auto es nuevo o solo estoy usando para revision
+     * @param _vendedor sabes si quien llama al formulario es un vendedor
      */
     public FrmVehiculo(boolean _nuevo, boolean _vendedor) {
         initComponents();

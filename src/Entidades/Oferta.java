@@ -7,7 +7,6 @@ package Entidades;
 
 import Formularios.FrmVendedor;
 import TDAs.DoubleLinkedList;
-import TDAs.SimpleLinkedList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -124,6 +123,11 @@ public class Oferta {
             }
         }
         
+    }
+
+    @Override
+    public String toString() {
+        return "Oferta{" + "placa=" + placa + ", correo=" + correo + ", precioOfertado=" + precioOfertado + '}';
     }
 
     public Oferta(String placa, String correo, Double precioOfertado) {

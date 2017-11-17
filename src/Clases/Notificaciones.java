@@ -6,7 +6,9 @@
 package Clases;
 
 import Entidades.Oferta;
-import TDAs.DoubleLinkedList;
+import Formularios.FrmVendedor;
+import TDAs.SimpleLinkedList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,15 +17,28 @@ import TDAs.DoubleLinkedList;
  * @author Kleber Avelino Mosquera
  */
 public class Notificaciones extends Thread{
-    DoubleLinkedList<Oferta> listTemp = Oferta.LOfertas;
+    TDAs.SimpleLinkedList<Oferta> listTemp = new SimpleLinkedList<>();
+    int ultimoValor = Oferta.LOfertas.size();
+    FrmVendedor frm= null;
      @Override
     public void run() {
-        while(true){            
-            if (Oferta.LOfertas.size() > listTemp.size()) {
-                
+        while(true){  
+            synchronized(this){
+            if (Oferta.LOfertas.size() != ultimoValor) {
+                listTemp.removeLast();
+                listTemp.addFirst(Oferta.LOfertas.getFirst());
+                FrmVendedor.Notifiaciones(listTemp.getLast().toString());       
+                                
+                //listTemp.removeLast();          
+                ///frm.Notifiaciones(listTemp.getLast().toString());
+                ultimoValor = Oferta.LOfertas.size();
             }
-            
+            }
         }
+    } 
+    
+    public void LoadFrm(FrmVendedor _form){
+        frm = _form;
     }
     
 }

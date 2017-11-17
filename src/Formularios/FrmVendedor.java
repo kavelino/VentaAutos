@@ -5,6 +5,7 @@
  */
 package Formularios;
 
+import Clases.Notificaciones;
 import Entidades.Oferta;
 import javax.swing.JOptionPane;
 
@@ -20,7 +21,14 @@ public class FrmVendedor extends javax.swing.JFrame {
      * Creates new form FrmVendedor
      */
     public FrmVendedor() {
-        initComponents();        
+        initComponents();   
+        Clases.Notificaciones not = new Notificaciones();
+        //not.LoadFrm(this);
+        not.start();
+    }
+    
+    public static void Notifiaciones(String _mes){
+       ds.desktop.notify.DesktopNotify.showDesktopMessage("Aviso", "Se ha encontrado una nueva Oferta: " + _mes);
     }
     
     /**
