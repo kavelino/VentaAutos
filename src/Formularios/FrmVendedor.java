@@ -102,7 +102,7 @@ public class FrmVendedor extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         FrmLogin frm = new FrmLogin();
         frm.setVisible(true);
-        //dispose();
+        dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
