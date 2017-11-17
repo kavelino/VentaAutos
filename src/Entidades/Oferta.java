@@ -25,14 +25,13 @@ public class Oferta {
     String correo;
     Double precioOfertado;
     
-    public static TDAs.SimpleLinkedList<Oferta> LOfertas ;
+    public static TDAs.SimpleLinkedList<Oferta> LOfertas = new SimpleLinkedList<>();
     
     public static void Llenalista(){
         ResultSet rs = null;                       
         PreparedStatement st = null;
         Connection con = null;
         
-        LOfertas = new SimpleLinkedList<>();
         
         try {
             con = Conexion.Conexion.conectar();
@@ -73,52 +72,57 @@ public class Oferta {
         }
     }
     
-    public static void GuardarDatos(){
-        ResultSet rs = null;                       
-        PreparedStatement st = null;
-        Connection con = null;
-        try {
-            con = Conexion.Conexion.conectar();
-            st= con.prepareStatement("delete * from ofertas");
-            st.executeUpdate();
-            System.out.println("Eliminando datos pasados");
-            for (int i = 0; i < LOfertas.size(); i++) {
-                st = con.prepareStatement("insert into ofertas (idofertas,placa,correo,precios) values (null, ?,?,?)");
-                st.setString(1, LOfertas.get(i).getPlaca());
-                st.setString(2, LOfertas.get(i).getCorreo());
-                st.setString(3, String.valueOf( LOfertas.get(i).getPrecioOfertado()));
+    public static void GuardarDatos(){        
+        if (LOfertas.size()>0) {
+            ResultSet rs = null;                       
+            PreparedStatement st = null;
+            Connection con = null;
+            try {
+                con = Conexion.Conexion.conectar();
+
+
+                st= con.prepareStatement("delete from ofertas");
                 st.executeUpdate();
-                System.out.println("El auto "+LOfertas.get(i).getPlaca()+". Ingresado con éxito" );
-            }         
-        }catch (Exception ex) {
-            Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
-            /*JOptionPane.showMessageDialog(this,
-                    "Ocurrió un error al intentar consultar información en la base de datos. "+ ex,
-                    "Vendedor",
-                    JOptionPane.ERROR_MESSAGE);*/
-        }finally{
-            if ( con!=null) {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                System.out.println("Eliminando datos pasados");
+                for (int i = 0; i < LOfertas.size(); i++) {
+                    st = con.prepareStatement("insert into ofertas (idofertas,placa,correo,precios) values (null, ?,?,?)");
+                    st.setString(1, LOfertas.get(i).getPlaca());
+                    st.setString(2, LOfertas.get(i).getCorreo());
+                    st.setString(3, String.valueOf( LOfertas.get(i).getPrecioOfertado()));
+                    st.executeUpdate();
+                    System.out.println("El auto "+LOfertas.get(i).getPlaca()+". Ingresado con éxito" );
+                }        
+            }catch (Exception ex) {
+                Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                /*JOptionPane.showMessageDialog(this,
+                        "Ocurrió un error al intentar consultar información en la base de datos. "+ ex,
+                        "Vendedor",
+                        JOptionPane.ERROR_MESSAGE);*/
+            }finally{
+                if ( con!=null) {
+                    try {
+                        con.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-            if (st!=null) {
-                try{
-                    st.close();
-                }catch (SQLException ex) {
-                   Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                if (st!=null) {
+                    try{
+                        st.close();
+                    }catch (SQLException ex) {
+                       Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
-            }
-            if (rs!= null) {
-                try{
-                    rs.close();
-                }catch (SQLException ex) {
-                    Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                if (rs!= null) {
+                    try{
+                        rs.close();
+                    }catch (SQLException ex) {
+                        Logger.getLogger(FrmVendedor.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
+        
     }
 
     public Oferta(String placa, String correo, Double precioOfertado) {

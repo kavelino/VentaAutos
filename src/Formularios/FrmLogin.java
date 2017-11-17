@@ -51,6 +51,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jpPassword = new javax.swing.JPasswordField();
         btnNuevoUser = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        btnDemo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Iniciar Sesión");
@@ -92,6 +93,13 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel3.setText("Venta de Autos");
 
+        btnDemo.setText("Cargar DEMO");
+        btnDemo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDemoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,13 +123,15 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(85, 85, 85))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLoguin)
-                        .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(85, 85, 85))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnDemo)
+                            .addComponent(btnLoguin))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,12 +146,15 @@ public class FrmLogin extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jpPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLoguin)
                     .addComponent(btnCancel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnNuevoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnNuevoUser, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDemo, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -192,6 +205,20 @@ public class FrmLogin extends javax.swing.JFrame {
         System.out.println("Terminando");
     }//GEN-LAST:event_formWindowClosing
 
+    private void btnDemoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDemoActionPerformed
+        Auto a = new Auto("GBN1177", "Chevrolet", "Spark", 1.5, 2017, "n", 300, "verde", "gasolina", "manuales", "automatica", 14.0510, "ChevroletSpark.jpg");
+        Auto b = new Auto("GHK1249", "Honda", "sedan", 2.4, 2017, "n", 100, "negro", "gasolina", "Electricos", "automatica", 20.1520, "HondaAccordSedan.png");
+        Auto.LAutos.addFirst(a);
+        Auto.LAutos.addFirst(b);
+        
+        Oferta o = new Oferta("GBN1177", "alguien@tes1.com", 11.000);
+        Oferta p = new Oferta("GBN1177", "alguien@tes1.com", 10.000);
+        Oferta q = new Oferta("GHK1249", "alguien@tes1.com", 14.900);
+        Oferta.LOfertas.addFirst(o);
+        Oferta.LOfertas.addFirst(p);
+        Oferta.LOfertas.addFirst(q);        
+    }//GEN-LAST:event_btnDemoActionPerformed
+
     private Connection con;
     
     /**
@@ -229,6 +256,7 @@ public class FrmLogin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnDemo;
     private javax.swing.JButton btnLoguin;
     private javax.swing.JButton btnNuevoUser;
     private javax.swing.JLabel jLabel1;
